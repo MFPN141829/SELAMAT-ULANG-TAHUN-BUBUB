@@ -1,0 +1,170 @@
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Selamat Ulang Tahun!</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background-image: url('assets/bg1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: white;
+      text-align: center;
+    }
+    .page {
+      display: none;
+      padding: 20px;
+    }
+    .active {
+      display: block;
+    }
+    h1 {
+      font-size: 2.5em;
+      margin-top: 20px;
+    }
+    .marquee {
+      overflow: hidden;
+      white-space: nowrap;
+      animation: marquee 20s linear infinite;
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
+    @keyframes marquee {
+      0%   { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+    .countdown {
+      font-size: 1.5em;
+      margin: 20px 0;
+    }
+    .main-photo {
+      max-width: 90%;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    }
+    .gif {
+      width: 120px;
+      margin: 10px;
+    }
+    .hidden {
+      display: none;
+    }
+    .gallery {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px;
+    }
+    .gallery img {
+      flex: 0 0 auto;
+      width: 80%;
+      max-width: 300px;
+      border-radius: 12px;
+      transition: transform 0.3s;
+    }
+    .gallery img:hover {
+      transform: scale(1.05);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      background-color: #e91e63;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgm" autoplay loop>
+    <source src="assets/lagu.mp3" type="audio/mpeg">
+  </audio>  <div id="page1" class="page active">
+    <h1>Selamat Ulang Tahun!</h1>
+    <div class="countdown" id="countdown"></div>
+    <div class="marquee">HAPPY BIRTHDAY KE-20 SSYANGKUUU CINTAKUY CANTIKUUU GEMESSSKUUU BIDADRIKU CALON ISTRIKUUU</div>
+    <button onclick="nextPage()">Lanjut</button>
+  </div>  <div id="page2" class="page">
+    <img src="assets/foto2.jpg" class="main-photo" alt="Foto Ulang Tahun">
+    <p id="typed-text"></p>
+    <img src="assets/kue.gif" class="gif hidden" id="gif-kue">
+    <img src="assets/hati.gif" class="gif hidden" id="gif-hati">
+    <img src="assets/peluk.gif" class="gif hidden" id="gif-peluk">
+    <button onclick="nextPage()">Lanjut ke Galeri</button>
+  </div>  <div id="page3" class="page">
+    <h2>Kenangan Kita</h2>
+    <div class="gallery">
+      <img src="assets/foto1.jpg">
+      <img src="assets/foto2.jpg">
+      <img src="assets/foto3.jpg">
+      <img src="assets/foto4.jpg">
+      <img src="assets/foto5.jpg">
+    </div>
+  </div>  <script>
+    const pages = document.querySelectorAll('.page');
+    let currentPage = 0;
+
+    function nextPage() {
+      pages[currentPage].classList.remove('active');
+      currentPage++;
+      pages[currentPage].classList.add('active');
+
+      if (currentPage === 1) {
+        typeText();
+      }
+    }
+
+    const fullText = `Selamat atas bertambah umurnya ssyanggg, semoga menjadi pribadi yang lebih baik, sehat, rezeki lancar, dan semua harapan tercapai. Maaf kalau kado dan perayaannya kurang. Doa terbaik selalu buat kamu, I love you!`;
+    let index = 0;
+
+    function typeText() {
+      const textElement = document.getElementById('typed-text');
+      const kue = document.getElementById('gif-kue');
+      const hati = document.getElementById('gif-hati');
+      const peluk = document.getElementById('gif-peluk');
+
+      function type() {
+        if (index < fullText.length) {
+          textElement.textContent += fullText.charAt(index);
+          index++;
+          setTimeout(type, 50);
+        } else {
+          kue.classList.remove('hidden');
+          setTimeout(() => {
+            hati.classList.remove('hidden');
+            peluk.classList.remove('hidden');
+          }, 1000);
+        }
+      }
+      type();
+    }
+
+    const countdownEl = document.getElementById('countdown');
+    const targetDate = new Date("2025-07-18T00:00:00").getTime();
+
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdownEl.innerHTML = `Waktu menuju 18 Juli 2025: ${days}h ${hours}j ${minutes}m ${seconds}d`;
+    }
+
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script></body>
+</html>
